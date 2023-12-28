@@ -24,8 +24,8 @@ const userRouter = require("./router/user");
 const taskRouter = require("./router/task");
 const { errormiddleware } = require("./middleware/error");
 
-app.use("/user", userRouter);
-app.use("/task", taskRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/task", taskRouter);
 
 app.get("/", (req, res) => {
   res.send("Nice working");
