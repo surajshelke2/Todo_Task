@@ -1,36 +1,40 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const cors = require('cors')
-
-const app = express();
+const cors = require('cors');
 const dotenv = require("dotenv");
 
-app.use(express.json());
-app.use(cookieParser());
-module.exports = app;
+const app = express();
+
+// Load environment variables
 dotenv.config({
   path: "./data/config.env",
 });
 
-app.use(
-  cors({
-    origin:[process.env.FRONTEND_URI],
-    methods:["GET",'PUT','DELETE','POST'],
-    credentials:true
+// Middleware
+app.use(cors({
+  origin: [process.env.FRONTEND_URI],
+  methods: ["GET", "PUT", "DELETE", "POST"],
+  credentials: true,
+}));
 
-  })
-)
+app.use(express.json());
+app.use(cookieParser());
+
+// Routers
 const userRouter = require("./router/user");
 const taskRouter = require("./router/task");
-const { errormiddleware } = require("./middleware/error");
 
-
-
-app.use("/api/v1/users", userRouter);
-app.use("/api/v1/task", taskRouter);
-
+// Routes
 app.get("/", (req, res) => {
   res.send("Nice working");
 });
 
+// API Routes
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/task", taskRouter);
+
+// Error Handling Middleware
+const { errormiddleware } = require("./middleware/error");
 app.use(errormiddleware);
+
+module.exports = app;
