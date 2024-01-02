@@ -1,7 +1,7 @@
 const { ErrorHandler } = require("../middleware/error");
 const User = require("../model/user");
-const sendCookie = require("../utils/feactures");
 
+const sendCookie = require('../utils/feactures')
 const bcrypt = require("bcrypt");
 const login = async (req, res, next) => {
   try {
@@ -15,15 +15,14 @@ const login = async (req, res, next) => {
 
     if (!isMatch)
       return next(new ErrorHandler("Invalid Email or Password", 400));
-
+    
     sendCookie(user, res, `Welcome back, ${user.name}`, 200);
   } catch (error) {
-
     next(error);
   }
 };
 
-const register = async (req, res,next) => {
+const register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
@@ -41,7 +40,7 @@ const register = async (req, res,next) => {
   }
 };
 
-const getMyProfile = (req, res,next) => {
+const getMyProfile = (req, res, next) => {
   try {
     res.status(200).json({
       success: true,
@@ -52,20 +51,19 @@ const getMyProfile = (req, res,next) => {
   }
 };
 
-const logout = (req, res,next) => {
+const logout = (req, res, next) => {
   try {
     res
       .cookie("token", null, {
         expires: new Date(0),
         httpOnly: true,
-        sameSite: process.env.NODE_ENV=="Development"?'lax':'none',
-        secure: process.env.NODE_ENV=="Development"?'false':'true',
+        sameSite: process.env.NODE_ENV == "Development" ? "lax" : "none",
+        secure: process.env.NODE_ENV == "Development" ? "false" : "true",
       })
       .status(200)
       .json({
         success: true,
         message: "User is Successfully Logout!!",
-       
       });
   } catch (error) {
     next(error);

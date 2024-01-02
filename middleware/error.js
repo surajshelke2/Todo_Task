@@ -15,5 +15,5 @@ class ErrorHandler extends Error {
     });
   };
   
-  module.exports = { ErrorHandler, errormiddleware };
+  module.exports ={errormiddleware,ErrorHandler};
   

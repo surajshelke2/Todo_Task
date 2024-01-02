@@ -15,6 +15,8 @@ const sendCookie = (user, res, message, statusCode = 200) => {
       success: true,
       message,
     });
+
+    console.log(res.get('Set-Cookie'));
 };
 
 module.exports = sendCookie;
